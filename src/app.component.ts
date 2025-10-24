@@ -4,10 +4,14 @@ import { Component, ChangeDetectionStrategy, signal, OnInit, computed } from '@a
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: []
+  imports: [],
+  host: {
+    '(window:resize)': 'onResize()'
+  }
 })
 export class AppComponent implements OnInit {
   readonly deferredPrompt = signal<any | null>(null);
+  readonly isDesktopView = signal(false);
 
   // Signals for filter controls
   readonly hue = signal(11);
@@ -23,9 +27,20 @@ export class AppComponent implements OnInit {
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof window.document !== 'undefined';
   }
+  
+  private checkViewport(): void {
+    if (this.isBrowser()) {
+      // Show desktop warning if aspect ratio is landscape or width is too large
+      const isLandscape = window.innerWidth > window.innerHeight;
+      const isTooWide = window.innerWidth > 768;
+      this.isDesktopView.set(isLandscape || isTooWide);
+    }
+  }
 
   ngOnInit(): void {
     if (this.isBrowser()) {
+      this.checkViewport();
+
       window.addEventListener('beforeinstallprompt', (e: Event) => {
         // Prevent the mini-infobar from appearing on mobile
         e.preventDefault();
@@ -39,6 +54,10 @@ export class AppComponent implements OnInit {
         console.log('PWA was installed');
       });
     }
+  }
+
+  onResize(): void {
+    this.checkViewport();
   }
 
   installPwa(): void {
