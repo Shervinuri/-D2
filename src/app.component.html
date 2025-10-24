@@ -1,0 +1,27 @@
+<main class="h-screen bg-sky-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+  <!-- Frame with animated gradient border -->
+  <div class="w-full h-full p-2 animated-gradient-border rounded-xl">
+    <!-- Mobile Phone Frame -->
+    <div class="relative w-full h-full bg-gray-800 dark:bg-black overflow-hidden rounded-lg">
+      
+      <iframe
+        class="w-full h-full bg-white border-0 transition-all duration-300"
+        src="https://chat.dphn.ai"
+        title="Chat Application"
+        [style.filter]="iframeFilterStyle"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
+        allow="clipboard-write">
+      </iframe>
+
+      <!-- Vertical Branding Text -->
+      <div class="absolute inset-y-0 right-1 flex items-center justify-center pointer-events-none">
+        <span class="[writing-mode:vertical-rl] rotate-180 text-xs font-normal tracking-widest uppercase animated-gradient-text whitespace-nowrap">
+          Exclusive SHΞN™ made
+        </span>
+      </div>
+
+    </div>
+  </div>
+  
+</main>
