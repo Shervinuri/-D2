@@ -1,14 +1,24 @@
-import { Component, ChangeDetectionStrategy, signal, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, OnInit, computed } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: []
 })
 export class AppComponent implements OnInit {
-  iframeFilterStyle = 'hue-rotate(11deg) saturate(13%) brightness(103%) contrast(200%)';
-  
   readonly deferredPrompt = signal<any | null>(null);
+
+  // Signals for filter controls
+  readonly hue = signal(11);
+  readonly saturate = signal(13);
+  readonly brightness = signal(103);
+  readonly contrast = signal(200);
+
+  // Computed signal for the iframe filter style
+  readonly iframeFilterStyle = computed(() => 
+    `hue-rotate(${this.hue()}deg) saturate(${this.saturate()}%) brightness(${this.brightness()}%) contrast(${this.contrast()}%)`
+  );
   
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof window.document !== 'undefined';
